@@ -1,0 +1,11 @@
+СУБД - системы управления баз данных
+  1. MS Access
+  2. Oracle
+  3. MS SQL Server
+
+Типы данных:
+1. Символьный/Текст (VARCHAR(25), CHAR(5), TEXT)
+2. Число (INT, SMALLINT, Decimal(5,2) 5 - всего чисел, 2 числа после запятой
+3. Логические (bit, bool, boolean, true/false)
+4. Datetime (date/time, date, time)
+
