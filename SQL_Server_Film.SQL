@@ -36,9 +36,49 @@ SELECT * FROM film;
 --tabeli film struktuuri muutmine--> 
 --add FK film(zanrID) with PK zanr(zanrID)
 
-ALTER TABLE film ADD CONSTRAINT fk_zanr
+ALTER TABLE film ADD CONSTRAINT fk_zanr1
 FOREIGN KEY (zanrID) REFERENCES zanr(zanrID);
 
 select * from film;
 select * from zanr;
 UPDATE film SET zanrID=2 WHERE filmID=4
+
+CREATE TABLE rezisoor(
+rezID int PRIMARY KEY identity(1,1),
+rezNimi varchar(30) not null,
+synniaeg date, 
+riik varchar(3) ,
+);
+
+INSERT INTO rezisoor (rezNimi, synniaeg, riik)
+VALUES ('Christopher Nolan', '1970-07-30', 'GBR');
+
+SELECT * From rezisoor;
+
+CREATE TABLE kinokava (
+kinokavaId INT PRIMARY KEY identity(1,1),
+kestus TIME NOT NULL,
+hind DECIMAL(5, 2) NOT NULL, 
+
+);
+INSERT INTO kinokava (kestus, hind, kuupaev)
+VALUES ('1:55',6.5, '2024-10-03');
+
+ALTER TABLE kinokava ADD kuupaev date;
+
+
+SELECT * From rezisoor;
+SELECT * From kinokava;
+SELECT * From film;
+
+
+ALTER TABLE film ADD CONSTRAINT fk_rez
+FOREIGN KEY (rezID) REFERENCES rezisoor(rezID);
+
+DELETE from kinokava where kinokavaid=2
+
+
+UPDATE kinokava SET rezID=4 WHERE kinokavaID=3
+
+
+UPDATE film SET rezID=4 WHERE filmID=1
