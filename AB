@@ -42,15 +42,36 @@ SELECT * FROM students;
 END;
 
 -- Используем процедуру чтобы добавить другого студента
-EXEC addnewstudent 'Gleb Dranitsõn', '4.3', 'TARgv24', 'Veebirakenduse Alused', '4'
+EXEC addnewstudent 'Vasya Popov', '2.3', 'TARgv24', 'Veebirakenduse Alused', '10'
 
+
+-- Создаём процедуру 2: Получение списка студентов с низким средним баллом (ниже определенного значения, придумай сам)
 CREATE PROCEDURE lowRating
-
+@rating FLOAT
 AS
 BEGIN
 
-SELECT * FROM students;
+SELECT * FROM students
 
-WHERE rating < 3.0;
+WHERE rating < @rating;
 
 END;
+
+-- Используем процедуру чтобы отсортировать студентов с баллом 3.0 и ниже
+EXEC lowRating 3.0;
+
+-- Создаём процедуру 3: Обновление среднего балла студента
+CREATE PROCEDURE updateRating
+    @oldRating FLOAT,
+    @newRating FLOAT
+AS
+BEGIN
+    SELECT * FROM students;
+
+    UPDATE students SET rating = @newRating
+    WHERE rating = @oldRating;
+
+END;
+
+-- Используем процедуру чтобы заменить средний балл с 2.3 на 4.5
+EXEC updateRating 2.3, 4.5;
