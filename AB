@@ -1,0 +1,56 @@
+https://moodle.edu.ee/mod/forum/discuss.php?d=1095646#p2102615
+
+-- Создание БД студентов
+CREATE DATABASE students;
+
+-- Переход в БД студентов
+USE students; 
+
+-- Создание таблицы 'students'
+CREATE TABLE students(
+studentID int PRIMARY KEY identity(1,1),
+studentFullname varchar(50),
+rating float,
+groupName varchar(25),
+subjectName text,
+missedLessons int,
+)
+
+-- Добавление первой строчки в таблицу 'students'
+SELECT * FROM students;
+INSERT INTO students(studentFullname, rating, groupName, subjectName, missedLessons)
+VALUES(
+'Kirill Melnikov', '4.5', 'TARgv24', 'Andmebaaside Alused', '0')
+SELECT * FROM students;
+
+-- Создаём процедуру 1: Добавление новой записи об успеваемости студента
+CREATE PROCEDURE addnewstudent
+	@studentFullname varchar(50),
+	@rating float,
+	@groupName varchar(25),
+	@subjectName text,
+	@missedLessons int
+
+AS
+BEGIN
+
+INSERT INTO students(studentFullname, rating, groupName, subjectName, missedLessons)
+VALUES(
+@studentFullname, @rating, @groupName, @subjectName, @missedLessons);
+SELECT * FROM students;
+
+END;
+
+-- Используем процедуру чтобы добавить другого студента
+EXEC addnewstudent 'Gleb Dranitsõn', '4.3', 'TARgv24', 'Veebirakenduse Alused', '4'
+
+CREATE PROCEDURE lowRating
+
+AS
+BEGIN
+
+SELECT * FROM students;
+
+WHERE rating < 3.0;
+
+END;
