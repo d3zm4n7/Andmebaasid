@@ -1,0 +1,56 @@
+Create database triggerTARgv24;
+
+Use triggerTARgv24;
+-- table manual 
+Create table linnad(
+linnID int PRIMARY KEY IDENTITY(1,1),
+linnanimi varchar(15) not null,
+rahvaarv int);
+
+--trigger table automatic
+Create table logi( 
+id int PRIMARY KEY IDENTITY(1,1),
+aeg DATETIME,
+toiming  varchar(100),
+andmed TEXT
+)
+
+--INSERT TRIGGER- отслеживает добавление данных в таблицу linnad
+-- и делает соответствующую(автоматическую) запись в таблицу logi
+
+--Create Trigger linnaLisamine
+Create Trigger linnaLisamine
+ON linnad -- имя таблицы, которая будет отслеживаться
+FOR INSERT
+AS 
+INSERT INTO logi(aeg, toiming, andmed) -- таблица куда будет заполняться
+SELECT  --
+GETDATE(), --aeg
+'on tehtud INSERT käsk', --toiming
+inserted.linnanimi 
+FROM inserted; --andmed
+
+--trigger check
+INSERT INTO linnad(linnanimi,rahvaarv)
+VALUES ('Tapa', 20000);
+SELECT * FROM linnad;
+SELECT * FROM logi;
+
+-- CREATE Trigger linnaKustatamine
+CREATE Trigger linnaKustatamine
+ON linnad -- имя таблицы, которая будет отслеживаться
+FOR DELETE
+AS 
+INSERT INTO logi(kasutaja, aeg, toiming, andmed) -- таблица куда будет заполняться
+SELECT
+SUSER_NAME(), --USER
+GETDATE(), --aeg
+'on tehtud DELETE käsk', --toiming
+CONCAT('linn: ', deleted.linnanimi, ', elanike arv: ', deleted.rahvaarv) 
+FROM deleted; --andmed
+
+--controll
+DELETE FROM linnad
+WHERE linnID=1;
+SELECT * FROM linnad;
+SELECT * FROM logi;
